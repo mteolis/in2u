@@ -4,6 +4,8 @@ fn main() {
     println!("in2u has started");
 
     let player_count = get_player_count();
+    let players = get_player_names(&player_count);
+    println!("Players: {:?}", &players);
 }
 
 fn get_player_count() -> i32 {
@@ -23,4 +25,28 @@ fn get_player_count() -> i32 {
             }
         }
     }
+}
+
+fn get_player_names(player_count: &i32) -> Vec<String> {
+    let mut players = Vec::new();
+
+    let mut name: Result<String, _>;
+    for i in 0..*player_count {
+        print!("Enter player {}'s name: ", i + 1);
+
+        name = try_read!();
+        match name {
+            Ok(name) => {
+                println!("{} added.", &name);
+                players.push(name);
+                continue;
+            }
+            Err(_) => {
+                println!("Invalid input, please only enter valid strings.");
+                continue;
+            }
+        }
+    }
+
+    players
 }
